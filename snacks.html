@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snacks Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+        .header {
+            background-color: #ff5722;
+            padding: 20px;
+            color: white;
+            font-size: 24px;
+        }
+        .dish {
+            display: inline-block;
+            margin: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        .dish img {
+            width: 150px;
+            border-radius: 10px;
+        }    
+        </style>
+</head>
+<body>
+    <div class="header">
+        Snacks Menu
+        <a href="index.html" style="float:right; color:white; margin-right:20px;">Home</a>
+    </div>
+    <div id="snacks" class="restaurants">
+        <h3>Snacks Options</h3>
+        <div class="dish" onclick="showDishDetails('Dry Fruit Laddu', '80', 'Sri Ragavendra, Hotel Mayuri', 'images/dry_fruit_laddu.jpg', 'images/sri_ragavendra.jpg, images/hotel_mayuri.jpg', '45 minutes')">
+            <img src="images/dry_fruit_laddu.jpg" alt="Dry Fruit Laddu">
+        </div>
+        <div class="dish" onclick="showDishDetails('Millet Pizza', '200', 'Palleturi Dosa, Ruchis family restaurant', 'images/millet_pizza.jpg', 'images/palleturi_dosa.jpg, images/ruchis_family_restaurant.jpg', '50 minutes')">
+            <img src="images/millet_pizza.jpg" alt="Millet Pizza">
+        </div>
+        <div class="dish" onclick="showDishDetails('Burger', '150', 'Teja Sree Tiffen Centre, Hotel Mayuri', 'images/burger.jpg', 'images/teja_sree_tiffen_centre.jpg, images/hotel_mayuri.jpg', '30 minutes')">
+            <img src="images/burger.jpg" alt="Burger">
+        </div>
+        <div class="dish" onclick="showDishDetails('Millet Cutlets', '70', 'Hari Krishna family restaurant, Paradise', 'images/millet_cutlet.jpg', 'images/hari_krishna_family_restaurant.jpg, images/paradise.jpg', '35 minutes')">
+            <img src="images/millet_cutlet.jpg" alt="Millet Cutlets">
+        </div>
+        <div class="dish" onclick="showDishDetails('Millet Sandwich', '150', 'Idly N More, Ruchis family restaurant', 'images/millet_sandwich.jpg', 'images/idly_n_more.jpg, images/ruchis_family_restaurant.jpg', '40 minutes')">
+            <img src="images/millet_sandwich.jpg" alt="Millet Sandwich">
+        </div>   
+    </div>
+    <div id="dish-details" class="dish-details"></div>
+
+    <script>
+        function showRestaurants(category) {
+            document.querySelectorAll('.restaurants').forEach(el => el.classList.remove('active'));
+            document.getElementById(category).classList.add('active');
+        }
+        function showDishDetails(name, price, restaurants, dishImg, restaurantImgs, deliveryTime) {
+        document.getElementById('dish-details').innerHTML = `
+            <h3>${name}</h3>
+            <img src="${dishImg}" alt="${name}" style="width:200px; height:auto; border-radius:10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            <p>Price: ₹${price}</p>
+            <h4>Available at:</h4>
+            <div style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap;">
+                ${restaurants.split(', ').map((r, index) => `
+                    <div style="text-align:center;">
+                        <img src="${restaurantImgs[index]}" alt="${r}" style="width:150px; height:100px; border-radius:10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                        <p>${r}</p>
+                    </div>
+                `).join('')}
+            </div>
+            <p>Estimated Delivery Time: ${deliveryTime}</p>
+            <button style="padding: 10px 20px; background-color: #ff5722; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;"
+                onclick="placeOrder('${name}', '${price}')">Order Now</button>
+        `;
+        document.getElementById('dish-details').classList.add('active');
+    }
+    
+        function placeOrder(dishName, price) {
+            alert(`Your order for ${dishName} (₹${price}) has been placed successfully!`);
+        }
+    </script>
+    <script>
+        function placeOrder(dishName, price) {
+            // Redirect to the ordernow page with query parameters for dish details
+            window.location.href = `ordernow.html?dish=${encodeURIComponent(dishName)}&price=${encodeURIComponent(price)}`;
+        }
+    </script>
+</body>
+</html>

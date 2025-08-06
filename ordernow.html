@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Now</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #ff5722;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        select, input {
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Order Summary</h2>
+    <p id="order-details"></p>
+    
+    <h3>Select Payment Method</h3>
+    <select id="payment-method" onchange="handlePaymentChange()">
+        <option value="">-- Select Payment Method --</option>
+        <option value="cod">Cash on Delivery</option>
+        <option value="credit">Credit Card</option>
+        <option value="upi">UPI</option>
+    </select>
+
+    <div id="upi-options" class="hidden">
+        <h3>Select UPI Provider</h3>
+        <select id="upi-provider">
+            <option value="paytm">Paytm</option>
+            <option value="phonepe">PhonePe</option>
+            <option value="googlepay">Google Pay</option>
+        </select>
+        <input type="text" id="upi-id" placeholder="Enter your UPI ID">
+    </div>
+
+    <button onclick="trackOrder()">Proceed to Track Your Order</button>
+</div>
+
+<script>
+    function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        const dish = params.get('dish');
+        const price = params.get('price');
+        return { dish, price };
+    }
+
+    window.onload = function () {
+        const order = getQueryParams();
+        if (order.dish && order.price) {
+            document.getElementById('order-details').innerText = `You ordered: ${order.dish} (₹${order.price})`;
+        } else {
+            document.getElementById('order-details').innerText = 'No order details found.';
+        }
+    };
+
+    function handlePaymentChange() {
+        const paymentMethod = document.getElementById('payment-method').value;
+        const upiOptions = document.getElementById('upi-options');
+        if (paymentMethod === 'upi') {
+            upiOptions.classList.remove('hidden');
+        } else {
+            upiOptions.classList.add('hidden');
+        }
+    }
+
+    function trackOrder() {
+        const order = getQueryParams();
+        const paymentMethod = document.getElementById('payment-method').value;
+        let paymentDetails = '';
+
+        if (paymentMethod === 'upi') {
+            const upiProvider = document.getElementById('upi-provider').value;
+            const upiId = document.getElementById('upi-id').value;
+            if (!upiId) {
+                alert('Please enter your UPI ID.');
+                return;
+            }
+            paymentDetails = `&paymentMethod=upi&upiProvider=${upiProvider}&upiId=${encodeURIComponent(upiId)}`;
+        } else {
+            paymentDetails = `&paymentMethod=${paymentMethod}`;
+        }
+
+        window.location.href = `ordertracking.html?dish=${encodeURIComponent(order.dish)}&price=${encodeURIComponent(order.price)}${paymentDetails}`;
+    }
+</script>
+
+</body>
+</html>

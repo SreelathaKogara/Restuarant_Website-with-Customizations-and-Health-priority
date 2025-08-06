@@ -1,0 +1,151 @@
+<?php
+include 'includes/db_connect.php'; // Ensure this connects to your database
+
+$query = "SELECT * FROM menu ORDER BY category";
+$result = mysqli_query($conn, $query);
+
+$menu = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $menu[$row['category']][] = $row;
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('images/Menu.jpg.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            padding: 20px;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+        }
+        .categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+        }
+
+        .category-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            width: 150px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .category-card:hover {
+            transform: scale(1.1);
+        }
+
+        .category-card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .restaurants, .dish-details {
+            display: none;
+            margin-top: 20px;
+            padding: 10px;
+            text-align: center;
+            width: 80%;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .restaurants.active, .dish-details.active {
+            display: block;
+        }
+
+        .dish {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .dish:hover {
+            transform: scale(1.05);
+        }
+
+        .dish img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .category-card {
+                width: 120px;
+            }
+
+            .dish img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .restaurants, .dish-details {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="categories">
+        <div class="category-card" onclick="navigateTo('breakfast.php')">
+            <img src="images/breakfast.jpg" alt="Breakfast">
+            <p>Breakfast</p>
+        </div>
+        <div class="category-card" onclick="navigateTo('lunch.php')">
+            <img src="images/lunch.jpg" alt="Lunch">
+            <p>Lunch</p>
+        </div>
+        <div class="category-card" onclick="navigateTo('snacks.php')">
+            <img src="images/snacks.jpg" alt="Snacks">
+            <p>Snacks</p>
+        </div>
+        <div class="category-card" onclick="navigateTo('dinner.php')">
+            <img src="images/dinner.jpg" alt="Dinner">
+            <p>Dinner</p>
+        </div>
+        <div class="category-card" onclick="navigateTo('drinks.php')">
+            <img src="images/drinks.jpg" alt="Drinks">
+            <p>Drinks</p>
+        </div>
+    </div>
+    <script>
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+    </script>
+</body>
+</html>

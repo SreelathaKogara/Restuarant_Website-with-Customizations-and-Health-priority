@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drinks Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+        .header {
+            background-color: #ff5722;
+            padding: 20px;
+            color: white;
+            font-size: 24px;
+        }
+        .dish {
+            display: inline-block;
+            margin: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        .dish img {
+            width: 150px;
+            border-radius: 10px;
+        }    
+        </style>
+</head>
+<body>
+
+<div class="header">
+    Drinks Menu
+    <a href="index.html" style="float:right; color:white; margin-right:20px;">Home</a>
+</div>
+<div class="restaurants">
+    <h3>Drinks Options</h3>
+    
+    <div class="dish" onclick="showDishDetails('Dry Fruit Lassi', '70', 'images/lassi_corner, Punjab Dairy', 'images/dryfruit_lassi.jpg', '20 minutes')">
+        <img src="images/dryfruit_lassi.jpg" alt="Dry Fruit Lassi">
+        <p>Dry Fruit Lassi - ₹70</p>
+    </div>
+    
+    <div class="dish" onclick="showDishDetails('Ragi Malt', '40', 'images/Health_Cafe.jpg, images/Nutri_Drinks.jpg', 'images/ragi_malt.jpg', '15 minutes')">
+        <img src="images/ragi_malt.jpg" alt="Ragi Malt">
+        <p>Ragi Malt - ₹40</p>
+    </div>
+    
+    <div class="dish" onclick="showDishDetails('Mint Water', '30', 'images/Cool_Drinks.jpg, images/Fresh_Mint_Bar.jpg', 'images/mint_water.jpg', '10 minutes')">
+        <img src="images/mint_water.jpg" alt="Mint Water">
+        <p>Mint Water - ₹30</p>
+    </div>
+    
+    <div class="dish" onclick="showDishDetails('Buttermilk', '20', 'images/Village_Dairy.jpg, images/Fresh_Farm', 'images/buttermilk.jpg', '12 minutes')">
+        <img src="images/buttermilk.jpg" alt="Buttermilk">
+        <p>Buttermilk - ₹20</p>
+    </div>
+    
+    <div class="dish" onclick="showDishDetails('Coffee', '20', 'images/Cafe_Coffee_Day, Starbucks', 'images/coffee.jpg', '10 minutes')">
+        <img src="images/coffee.jpg" alt="Coffee">
+        <p>Coffee - ₹20</p>
+    </div>
+    
+    <div class="dish" onclick="showDishDetails('Tea', '20', 'Chai Point, Tea Time', 'images/tea.jpg', '10 minutes')">
+        <img src="images/tea.jpg" alt="Tea">
+        <p>Tea - ₹20</p>
+    </div>
+</div>
+<div id="dish-details" class="dish-details"></div>
+<script>
+    function showRestaurants(category) {
+        document.querySelectorAll('.restaurants').forEach(el => el.classList.remove('active'));
+        document.getElementById(category).classList.add('active');
+    }
+    function showDishDetails(name, price, restaurants, dishImg, restaurantImgs, deliveryTime) {
+    document.getElementById('dish-details').innerHTML = `
+        <h3>${name}</h3>
+        <img src="${dishImg}" alt="${name}" style="width:200px; height:auto; border-radius:10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        <p>Price: ₹${price}</p>
+        <h4>Available at:</h4>
+        <div style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap;">
+            ${restaurants.split(', ').map((r, index) => `
+                <div style="text-align:center;">
+                    <img src="${restaurantImgs[index]}" alt="${r}" style="width:150px; height:100px; border-radius:10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <p>${r}</p>
+                </div>
+            `).join('')}
+        </div>
+        <p>Estimated Delivery Time: ${deliveryTime}</p>
+        <button style="padding: 10px 20px; background-color: #ff5722; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;"
+            onclick="placeOrder('${name}', '${price}')">Order Now</button>
+    `;
+    document.getElementById('dish-details').classList.add('active');
+}
+    function placeOrder(dishName, price) {
+        alert(`Your order for ${dishName} (₹${price}) has been placed successfully!`);
+    }
+</script>
+<script>
+    function placeOrder(dishName, price) {
+        // Redirect to the ordernow page with query parameters for dish details
+        window.location.href = `ordernow.html?dish=${encodeURIComponent(dishName)}&price=${encodeURIComponent(price)}`;
+    }
+</script>
+</body>
+</html>
+

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('images/Menu.jpg.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            background-color: #ff5722;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+        }
+
+        .category-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            width: 150px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .category-card:hover {
+            transform: scale(1.1);
+        }
+
+        .category-card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .restaurants, .dish-details {
+            display: none;
+            margin-top: 20px;
+            padding: 10px;
+            text-align: center;
+            width: 80%;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .restaurants.active, .dish-details.active {
+            display: block;
+        }
+
+        .dish {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .dish:hover {
+            transform: scale(1.05);
+        }
+
+        .dish img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .category-card {
+                width: 120px;
+            }
+
+            .dish img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .restaurants, .dish-details {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    Welcome to Our Restaurant Menu
+</div>
+
+<div id="breakfast" class="restaurants">
+    <h3>Breakfast Options</h3>
+    <div class="dish" onclick="showDishDetails('Dosa', '35', 'Sri Ragavendra, Idly N More', 'dosa.jpg', 'sri_ragavendra.jpg, idly_n_more.jpg', '30 minutes')">
+        <img src="images/dosa.jpg" alt="Dosa">
+    </div>
+     <div class="dish" onclick="showDishDetails('Idly', '30', 'Sri Ragavendra, Idly N More', 'idly.jpg', 'sri_ragavendra.jpg, idly_n_more.jpg', '30 minutes')">
+        <img src="images/idly.jpg" alt="Dosa">
+    </div>
+    <div class="dish" onclick="showDishDetails('Vada', '20', 'Ruchis family restaurant, Teja Sree Tiffen Centre', 'vada.jpg', 'ruchis_family_restaurant.jpg, teja_sree_tiffen_centre.jpg', '20 minutes')">
+        <img src="images/vada.jpg" alt="Vada">
+    </div>
+    <div class="dish" onclick="showDishDetails('Pongal', '30', 'Hari Krishna family restaurant, Hotel Mayuri', 'pongal.jpg', 'hari_krishna_family_restaurant.jpg, hotel_mayuri.jpg', '25 minutes')">
+        <img src="images/pongal.jpg" alt="Pongal">
+    </div>
+    <div class="dish" onclick="showDishDetails('Upma', '30', 'Paradise, Idly N More', 'upma.jpg', 'paradise.jpg, idly_n_more.jpg', '15 minutes')">
+        <img src="images/upma.jpg" alt="Upma">
+    </div>
+    </div>
+</div>
+
+<div id="lunch" class="restaurants">
+    <h3>Lunch Options</h3>
+    <div class="dish" onclick="showDishDetails('Dal Rice', '50', 'Sri Ragavendra, Ruchis family restaurant', 'dal_rice.jpg', 'sri_ragavendra.jpg, ruchis_family_restaurant.jpg', '30 minutes')">
+        <img src="images/dal_rice.jpg" alt="Dal Rice">
+    </div>
+    <div class="dish" onclick="showDishDetails('Sambar Rice', '50', 'Idly N More, Hotel Mayuri', 'sambar_rice.jpg', 'idly_n_more.jpg, hotel_mayuri.jpg', '25 minutes')">
+        <img src="images/sambar_rice.jpg" alt="Sambar Rice">
+    </div>
+    <div class="dish" onclick="showDishDetails('Millet Meals', '70', 'Teja Sree Tiffen Centre, Paradise', 'millet_meals.jpg', 'teja_sree_tiffen_centre.jpg, paradise.jpg', '40 minutes')">
+        <img src="images/millet_meals.jpg" alt="Millet Meals">
+    </div>
+    <div class="dish" onclick="showDishDetails('Gobi Rice', '60', 'Hari Krishna family restaurant, Hotel Mayuri', 'gobi_rice.jpg', 'hari_krishna_family_restaurant.jpg, hotel_mayuri.jpg', '35 minutes')">
+        <img src="images/gobi_rice.jpg" alt="Gobi Rice">
+    </div>
+    <div class="dish" onclick="showDishDetails('Millet Kichidi', '60', 'Sri Ragavendra, Ruchis family restaurant', 'millet_kichidi.jpg', 'sri_ragavendra.jpg, ruchis_family_restaurant.jpg', '30 minutes')">
+        <img src="images/millet_kichidi.jpg" alt="Millet Kichidi">
+    </div>    
+</div>
+<div id="dinner" class="restaurants">
+    <h3>Dinner Options</h3>
+    <div class="dish" onclick="showDishDetails('Chapathi', '40', 'Sri Ragavendra, Hotel Mayuri', 'chapathi.jpg', 'sri_ragavendra.jpg, hotel_mayuri.jpg', '30 minutes')">
+        <img src="images/chapathi.jpg" alt="Chapathi">
+    </div>
+    <div class="dish" onclick="showDishDetails('Parota', '50', 'Palleturi Dosa, Ruchis family restaurant', 'parota.jpg', 'palleturi_dosa.jpg, ruchis_family_restaurant.jpg', '25 minutes')">
+        <img src="images/parota.jpg" alt="Parota">
+    </div>
+    <div class="dish" onclick="showDishDetails('Millet Rice', '60', 'Teja Sree Tiffen Centre, Hotel Mayuri', 'millet_rice.jpg', 'teja_sree_tiffen_centre.jpg, hotel_mayuri.jpg', '35 minutes')">
+        <img src="images/millet_rice.jpg" alt="Millet Rice">
+    </div>
+    <div class="dish" onclick="showDishDetails('Ragi Muda', '50', 'Hari Krishna family restaurant, Paradise', 'ragi_muda.jpg', 'hari_krishna_family_restaurant.jpg, paradise.jpg', '40 minutes')">
+        <img src="images/ragi_muda.jpg" alt="Ragi Muda">
+    </div>
+    <div class="dish" onclick="showDishDetails('Roti', '50', 'Idly N More, Ruchis family restaurant', 'roti.jpg', 'idly_n_more.jpg, ruchis_family_restaurant.jpg', '20 minutes')">
+        <img src="images/roti.jpg" alt="Roti">
+    </div>    
+</div>
+<div id="snacks" class="restaurants">
+    <h3>Snacks Options</h3>
+    <div class="dish" onclick="showDishDetails('Dry Fruit Laddu', '80', 'Sri Ragavendra, Hotel Mayuri', 'dry_fruit_laddu.jpg', 'sri_ragavendra.jpg, hotel_mayuri.jpg', '45 minutes')">
+        <img src="dry_fruit_laddu.jpg" alt="Dry Fruit Laddu">
+    </div>
+    <div class="dish" onclick="showDishDetails('Millet Pizza', '200', 'Palleturi Dosa, Ruchis family restaurant', 'millet_pizza.jpg', 'palleturi_dosa.jpg, ruchis_family_restaurant.jpg', '50 minutes')">
+        <img src="millet_pizza.jpg" alt="Millet Pizza">
+    </div>
+    <div class="dish" onclick="showDishDetails('Burger', '150', 'Teja Sree Tiffen Centre, Hotel Mayuri', 'burger.jpg', 'teja_sree_tiffen_centre.jpg, hotel_mayuri.jpg', '30 minutes')">
+        <img src="burger.jpg" alt="Burger">
+    </div>
+    <div class="dish" onclick="showDishDetails('Millet Cutlets', '70', 'Hari Krishna family restaurant, Paradise', 'millet_cutlet.jpg', 'hari_krishna_family_restaurant.jpg, paradise.jpg', '35 minutes')">
+        <img src="millet_cutlet.jpg" alt="Millet Cutlets">
+    </div>
+    <div class="dish" onclick="showDishDetails('Millet Sandwich', '150', 'Idly N More, Ruchis family restaurant', 'millet_sandwich.jpg', 'idly_n_more.jpg, ruchis_family_restaurant.jpg', '40 minutes')">
+        <img src="millet_sandwich.jpg" alt="Millet Sandwich">
+    </div>    
+</div>
+<div id="drinks" class="restaurants">
+    <h3>Drinks Options</h3>
+    <div class="dish" onclick="showDishDetails('Dry Fruit Lassi', '80', 'Sri Ragavendra, Hotel Mayuri', 'dry_fruit_lassi.jpg', 'sri_ragavendra.jpg, hotel_mayuri.jpg', '30 minutes')">
+        <img src="dry_fruit_lassi.jpg" alt="Dry Fruit Lassi">
+    </div>
+    <div class="dish" onclick="showDishDetails('Ragi Malt', '50', 'Palleturi Dosa, Ruchis family restaurant', 'ragi_malt.jpg', 'palleturi_dosa.jpg, ruchis_family_restaurant.jpg', '25 minutes')">
+        <img src="ragi_malt.jpg" alt="Ragi Malt">
+    </div>
+    <div class="dish" onclick="showDishDetails('Pudhina Water', '40', 'Teja Sree Tiffen Centre, Hotel Mayuri', 'pudhina_water.jpg', 'teja_sree_tiffen_centre.jpg, hotel_mayuri.jpg', '20 minutes')">
+        <img src="pudhina_water.jpg" alt="Pudhina Water">
+    </div>
+    <div class="dish" onclick="showDishDetails('Butter Milk', '30', 'Hari Krishna family restaurant, Paradise', 'butter_milk.jpg', 'hari_krishna_family_restaurant.jpg, paradise.jpg', '15 minutes')">
+        <img src="butter_milk.jpg" alt="Butter Milk">
+    </div>
+    <div class="dish" onclick="showDishDetails('Tea', '20', 'Idly N More, Ruchis family restaurant', 'tea.jpg', 'idly_n_more.jpg, ruchis_family_restaurant.jpg', '10 minutes')">
+        <img src="tea.jpg" alt="Tea">
+    </div>
+    <div class="dish" onclick="showDishDetails('Coffee', '20', 'Idly N More, Ruchis family restaurant', 'coffee.jpg', 'idly_n_more.jpg, ruchis_family_restaurant.jpg', '10 minutes')">
+        <img src="coffee.jpg" alt="Coffee">
+    </div>    
+</div>
+<div id="dish-details" class="dish-details"></div>
+
+<script>
+    function showRestaurants(category) {
+        document.querySelectorAll('.restaurants').forEach(el => el.classList.remove('active'));
+        document.getElementById(category).classList.add('active');
+    }
+
+    function showDishDetails(name, price, restaurants, dishImg, restaurantImgs, deliveryTime) {
+        document.getElementById('dish-details').innerHTML = `
+            <h3>${name}</h3>
+            <img src="${dishImg}" alt="${name}" style="width:200px; height:auto; border-radius:10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            <p>Price: ₹${price}</p>
+            <h4>Available at:</h4>
+            <div style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap;">
+                ${restaurants.split(', ').map((r, index) => `
+                    <div style="text-align:center;">
+                        <img src="${restaurantImgs[index]}" alt="${r}" style="width:150px; height:100px; border-radius:10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                        <p>${r}</p>
+                    </div>
+                `).join('')}
+            </div>
+            <p>Estimated Delivery Time: ${deliveryTime} minutes</p>
+            <button style="padding: 10px 20px; background-color: #ff5722; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;"
+                onclick="placeOrder('${name}', '${price}')">Order Now</button>
+        `;
+        document.getElementById('dish-details').classList.add('active');
+    }
+
+    function placeOrder(dishName, price) {
+        alert(`Your order for ${dishName} (₹${price}) has been placed successfully!`);
+    }
+</script>
+<script>
+    function placeOrder(dishName, price) {
+        // Redirect to the ordernow page with query parameters for dish details
+        window.location.href = `ordernow.html?dish=${encodeURIComponent(dishName)}&price=${encodeURIComponent(price)}`;
+    }
+</script>
+
+</body>
+</html>
