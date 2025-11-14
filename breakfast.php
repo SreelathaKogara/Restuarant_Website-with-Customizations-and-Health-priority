@@ -26,16 +26,11 @@ include 'includes/db_connect.php';
       position: sticky;
       top: 0;
       z-index: 1000;
-      position: relative;
     }
-
-    .header .nav-link {
-      position: absolute;
-      top: 20px;
-      right: 60px;
+    .header a {
       color: white;
       text-decoration: none;
-      font-size: 16px;
+      font-size: 18px;
     }
 
     .header .cart-icon {
@@ -130,9 +125,12 @@ include 'includes/db_connect.php';
 <body>
 
 <div class="header">
-  Breakfast Menu
-  <a href="index.php" class="nav-link">Home</a>
-  <a href="cart.php" class="cart-icon"><i class="fas fa-shopping-cart"></i></a>
+  BreakFast Menu
+  <a href="cart.php" title="View Cart" style="color: white; float: right; margin-right: 20px;">
+    <i class="fas fa-shopping-cart"></i>
+  </a>
+  <a href="menu.php" style="color: white; float: right; margin-right: 20px;">Menu</a>
+  <a href="index.php" style="color: white; float: right; margin-right: 20px;">Home</a>
 </div>
 
 <div class="card-container">

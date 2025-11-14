@@ -56,6 +56,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn->close();
     }
 }
+// after inserting into users table
+$user_id = $conn->insert_id; 
+
+// insert default health profile row
+$sql = "INSERT INTO user_health_profile 
+(user_id, goal, daily_calorie_target, protein_target, sugar_limit, sodium_limit, diabetes, bp, heart, allergy_peanut, allergy_dairy, allergy_gluten, allergy_shellfish, updated_at)
+VALUES 
+($user_id, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, NOW())";
+
+$conn->query($sql);
+
 ?>
 
 <!DOCTYPE html>

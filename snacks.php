@@ -110,6 +110,7 @@ include 'includes/db_connect.php';
   <a href="cart.php" title="View Cart" style="color: white; float: right; margin-right: 20px;">
     <i class="fas fa-shopping-cart"></i>
   </a>
+  <a href="menu.php" style="color: white; float: right; margin-right: 20px;">Menu</a>
   <a href="index.php" style="color: white; float: right; margin-right: 20px;">Home</a>
 </div>
 
