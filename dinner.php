@@ -17,22 +17,20 @@ include 'includes/db_connect.php';
       padding: 0;
       background-color: #f5f5f5;
     }
-    .header {
+     .header {
       background-color: #28a745;
       padding: 20px;
       color: white;
       font-size: 24px;
+      text-align: center;
       position: sticky;
       top: 0;
       z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
     }
-    .header-title {
-      flex: 1;
-      text-align: center;
-      font-weight: bold;
+    .header a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
     }
     .header-links {
       display: flex;
@@ -117,11 +115,12 @@ include 'includes/db_connect.php';
 <body>
 
 <div class="header">
-  <div class="header-title">Dinner Menu</div>
-  <div class="header-links">
-    <a href="index.php">Home</a>
-    <a href="view_cart.php">🛒 Cart</a>
-  </div>
+  Dinner Menu
+  <a href="cart.php" title="View Cart" style="color: white; float: right; margin-right: 20px;">
+    <i class="fas fa-shopping-cart"></i>
+  </a>
+  <a href="menu.php" style="color: white; float: right; margin-right: 20px;">Menu</a>
+  <a href="index.php" style="color: white; float: right; margin-right: 20px;">Home</a>
 </div>
 
 <div class="card-container">

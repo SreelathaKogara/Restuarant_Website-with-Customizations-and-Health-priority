@@ -111,6 +111,7 @@ include 'includes/db_connect.php';
   <a href="cart.php" title="View Cart">
     <i class="fas fa-shopping-cart"></i>
   </a>
+  <a href="menu.php">Menu</a>
   <a href="index.php">Home</a>
 </div>
 

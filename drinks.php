@@ -16,24 +16,21 @@ include 'includes/db_connect.php';
             padding: 0;
             background-color: #f5f5f5;
         }
-
         .header {
-            background-color: #28a745;
-            padding: 20px;
-            color: white;
-            font-size: 24px;
-            text-align: center;
-            position: relative;
-        }
-
-        .header .nav-link {
-            position: absolute;
-            top: 20px;
-            right: 60px;
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-        }
+      background-color: #28a745;
+      padding: 20px;
+      color: white;
+      font-size: 24px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .header a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
 
         .header .cart-icon {
             position: absolute;
@@ -127,9 +124,12 @@ include 'includes/db_connect.php';
 <body>
 
 <div class="header">
-    Drinks Menu
-    <a href="index.php" class="nav-link">Home</a>
-    <a href="cart.php" class="cart-icon"><i class="fas fa-shopping-cart"></i></a>
+  Drinks Menu
+  <a href="cart.php" title="View Cart" style="color: white; float: right; margin-right: 20px;">
+    <i class="fas fa-shopping-cart"></i>
+  </a>
+  <a href="menu.php" style="color: white; float: right; margin-right: 20px;">Menu</a>
+  <a href="index.php" style="color: white; float: right; margin-right: 20px;">Home</a>
 </div>
 
 <div class="card-container">

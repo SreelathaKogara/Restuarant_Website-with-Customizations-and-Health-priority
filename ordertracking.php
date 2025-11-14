@@ -1,169 +1,92 @@
 <?php
-$dish = $_GET['dish'] ?? '';
-$price = $_GET['price'] ?? '';
-$restaurant = $_GET['restaurant'] ?? '';
+session_start();
+include 'includes/db_connect.php';
+
+// Get order details from URL (sent by ordernow.php)
+$finalPrice = isset($_GET['price']) ? (float)$_GET['price'] : null;
+$paymentMethod = $_GET['method'] ?? '';
+$discount = isset($_GET['discount']) ? (float)$_GET['discount'] : 0;
+
+if (!$finalPrice || !isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
+    die("<p style='text-align:center;font-size:18px;color:red;'>❌ Invalid or missing order.</p>");
+}
+
+$cart = $_SESSION['cart'];
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Track Your Order | FoodZone</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #fffaf5;
-            color: #333;
-            padding: 20px;
-        }
-        .container {
-            max-width: 700px;
-            margin: auto;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            text-align: center;
-        }
-        h2 {
-            font-size: 28px;
-            margin-bottom: 15px;
-            color: #111;
-        }
-        p {
-            font-size: 16px;
-            color: #555;
-        }
-        .order-info {
-            font-size: 18px;
-            margin: 15px 0 30px;
-        }
-        .progress-container {
-            margin: 30px 0;
-        }
-        .progress-bar {
-            background: #e0e0e0;
-            border-radius: 10px;
-            overflow: hidden;
-            height: 10px;
-        }
-        .progress {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(to right, #ff6600, #ff3300);
-            transition: width 1s ease-in-out;
-        }
-        .status {
-            margin-top: 15px;
-            font-weight: bold;
-            color: #ff3300;
-            font-size: 18px;
-        }
-        .steps {
-            display: flex;
-            justify-content: space-between;
-            position: relative;
-            margin-top: 20px;
-        }
-        .steps::before {
-            content: '';
-            position: absolute;
-            top: 20px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: #ddd;
-            z-index: 0;
-        }
-        .step {
-            position: relative;
-            background: #ccc;
-            color: #fff;
-            height: 40px;
-            width: 40px;
-            line-height: 40px;
-            border-radius: 50%;
-            font-weight: bold;
-            z-index: 1;
-        }
-        .step.active {
-            background: #ff3300;
-        }
-        .step-labels {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-            font-size: 12px;
-            color: #666;
-        }
-        @media (max-width: 500px) {
-            h2 { font-size: 22px; }
-            .order-info { font-size: 16px; }
-            .status { font-size: 16px; }
-            .step-labels { font-size: 10px; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Tracking | FoodZone</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body { background: #f9fafb; font-family: 'Segoe UI', sans-serif; padding: 20px; }
+.container { max-width: 700px; margin:auto; background:#fff; border-radius:16px; padding:30px; box-shadow:0 4px 16px rgba(0,0,0,0.1);}
+h2 { text-align:center; font-size:28px; margin-bottom:20px; color:#111; }
+ul li { margin-bottom:5px; }
+.steps { display:flex; justify-between; position:relative; margin-top:30px; padding:0 10px;}
+.step { flex:1; text-align:center; position:relative; font-size:14px; color:#888;}
+.step::after { content: ''; position:absolute; top:10px; right:0; width:100%; height:3px; background:#ddd; z-index:-1;}
+.step:last-child::after { display:none; }
+.step.active { color:#ff3300; font-weight:bold;}
+.step.active::after { background:#ff3300; }
+.step span { display:block; margin-top:6px; font-size:20px; }
+.order-summary { margin-bottom:20px; padding:15px; background:#f0f8ff; border-radius:10px;}
+.order-summary p { margin:5px 0; font-size:16px; }
+</style>
 </head>
 <body>
 <div class="container">
-    <h2>Order Tracking</h2>
-    <p class="order-info">Order for <strong><?= htmlspecialchars($dish) ?></strong> (₹<?= htmlspecialchars($price) ?>) from <strong><?= htmlspecialchars($restaurant) ?></strong></p>
+<h2>🛒 Track Your Order</h2>
 
-    <div class="progress-container">
-        <div class="steps">
-            <div class="step" id="step-1">1</div>
-            <div class="step" id="step-2">2</div>
-            <div class="step" id="step-3">3</div>
-            <div class="step" id="step-4">4</div>
-            <div class="step" id="step-5">5</div>
-        </div>
-        <div class="step-labels">
-            <span>Order Received</span>
-            <span>Preparing</span>
-            <span>Out for Delivery</span>
-            <span>Almost There</span>
-            <span>Delivered</span>
-        </div>
-        <div class="progress-bar">
-            <div class="progress" id="progress-bar"></div>
-        </div>
-        <div class="status" id="status-text">Order Received</div>
-    </div>
+<!-- Order summary -->
+<div class="order-summary">
+    <h3 class="font-semibold mb-2">📝 Your Order</h3>
+    <ul class="list-disc list-inside text-gray-700">
+        <?php foreach ($cart as $item): ?>
+            <li><?= htmlspecialchars($item['name']) ?> — ₹<?= htmlspecialchars(number_format($item['price'],2)) ?></li>
+        <?php endforeach; ?>
+    </ul>
+    <?php if($discount > 0): ?>
+        <p class="text-blue-600">Coupon Applied: <strong>₹<?= number_format($discount,2) ?></strong> discount</p>
+    <?php endif; ?>
+    <p class="font-semibold text-green-600 text-lg">Total Paid: ₹<?= number_format($finalPrice,2) ?></p>
+    <p>Payment Method: <strong><?= htmlspecialchars(strtoupper($paymentMethod)) ?></strong></p>
+</div>
+
+<!-- Order status steps -->
+<div class="steps">
+    <div class="step" id="step1">👨‍🍳<span>Order Received</span></div>
+    <div class="step" id="step2">🍳<span>Preparing Your Food</span></div>
+    <div class="step" id="step3">🚴<span>Out for Delivery</span></div>
+    <div class="step" id="step4">📍<span>Almost There</span></div>
+    <div class="step" id="step5">🎉<span>Delivered</span></div>
+</div>
 </div>
 
 <script>
-    function startTracking() {
-        const steps = [
-            "Order Received",
-            "Preparing Your Food",
-            "Out for Delivery",
-            "Almost There",
-            "Delivered"
-        ];
-        let index = 0;
-        const bar = document.getElementById("progress-bar");
-        const status = document.getElementById("status-text");
-        const stepDots = document.querySelectorAll(".step");
+document.addEventListener('DOMContentLoaded', function(){
+    const steps = [
+        document.getElementById('step1'),
+        document.getElementById('step2'),
+        document.getElementById('step3'),
+        document.getElementById('step4'),
+        document.getElementById('step5')
+    ];
+    let index = 0;
 
-        const interval = setInterval(() => {
-            if (index < steps.length) {
-                let progress = (index + 1) * 25;
-                bar.style.width = progress + "%";
-                status.innerText = steps[index];
-                stepDots[index].classList.add("active");
-                index++;
-            } else {
-                clearInterval(interval);
-            }
-        }, 2500);
+    function advanceStep() {
+        if(index < steps.length) {
+            steps[index].classList.add('active');
+            index++;
+            if(index < steps.length) setTimeout(advanceStep, 10000); // auto advance every 10s
+        }
     }
 
-    window.onload = startTracking;
+    advanceStep();
+});
 </script>
 </body>
 </html>
